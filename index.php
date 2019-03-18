@@ -2,6 +2,15 @@
 
 include('database/login_to_db.php');
 
+if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid']))
+{
+	$db99 = login_db();
+	$db99 = $db99->query('SELECT * FROM rand WHERE randid = ' . strip_tags($_GET['randid']));
+	$db99 = $db99->fetch();
+	if(empty($db99))
+	{ header('Location: index.php?error=Randid not found.'); }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -37,9 +46,14 @@ include('database/login_to_db.php');
 						<a href="#">Gen</a>
 					</li>
 					<li class="breadcrumb-item">
-						Dernièr tirage :		
+						Dernier tirage :		
 						<strong>
-
+						<?php
+						$last_up = login_db();
+						$last_up = $last_up->query('SELECT date FROM rand ORDER BY date DESC');
+						$last_up = $last_up->fetch();
+						echo $last_up['date'];
+						?>
 						</strong>	
 					</li>
 				</ol>
@@ -178,6 +192,64 @@ include('database/login_to_db.php');
 		</div>
 	</div>
 </div>
+
+<?php 
+
+if(!empty($db99))
+{
+	echo 
+	'
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4 col-md-offset-2">
+			<h5>
+				Élève(s) tiré(e)(s) au sort.
+			</h5>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Prenom
+						</th>
+					</tr>
+				</thead>
+				<tbody>';
+}
+
+?>
+
+<?php
+
+if(!empty($db99))
+{
+		$unlucky = unserialize($db99['unlucky_student']);
+
+		foreach($unlucky as $value)
+		{
+				echo '
+				<tr>
+					<td>
+							' . $value . '
+					</td>
+				</tr>';
+		}
+}
+
+?>
+
+<?php
+				
+if(!empty($db99))
+{
+		echo '</tbody>
+			</table>
+		</div>
+	</div>
+	';
+
+}
+
+?>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
