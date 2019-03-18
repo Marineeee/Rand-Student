@@ -1,3 +1,9 @@
+<?php
+
+include('database/login_to_db.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,33 +73,77 @@
 
 			<div class="row">
 				<div class="col-md-5">
-						<h5>
-								Liste des élèves de la classe.
-					</h5>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>
-									#
-								</th>
-								<th>
-									Prénom
-								</th>
-								<th>
-									Nom
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-						<tr>
-									<td>
-										' . htmlsame'])) . '
-									</td>
-									<td>
-										<a href="">' . htmlspecial$y]['name'])) . '</a>
-								</tr>
-						</tbody>
-					</table>
+						<a id="modal-425662" href="#modal-container-425662" role="button" class="btn" data-toggle="modal">Liste des élèves et informations.</a>
+							
+							<div class="modal fade" id="modal-container-425662" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="myModalLabel">
+												Liste des élèves.
+											</h5> 
+											<button type="button" class="close" data-dismiss="modal">
+												<span aria-hidden="true">×</span>
+											</button>
+										</div>
+										<div class="modal-body">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>
+														Prénom
+													</th>
+													<th>
+														Nom
+													</th>
+													<th>
+														Prénom d'absense
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+											<?php
+
+											$db2 = login_db();
+											$db2 = $db2->query('SELECT * FROM students');
+
+											while($students = $db2->fetch())
+											{
+												echo 
+												'
+												<tr>
+													<td>
+															' . $students['prenom'] . '
+													</td>
+													<td>
+														' . $students['nom'] . '
+													</td>
+													<td>
+														' . $students['nom_absence'] . '
+													</td>
+											</tr>
+												';
+											}
+
+											?>
+											</tbody>
+										</table>
+										</div>
+										<div class="modal-footer">
+											
+												<button type="submit" class="btn btn-primary">
+													Update
+												</button> 
+											
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">
+												Close
+											</button>
+										</div>
+									</div>
+									
+								</div>
+								
+							</div>
 					
 				</div>
 				<div class="col-md-2">
@@ -111,7 +161,7 @@
 							<label for="missing">
 							Élève(s) absent(s)
 							</label>
-							<input type="text" class="form-control" id="missing" name="missing" style="text-align: center; display: inline-block;" placeholder="Ex: Mazia, RomainR, Quentin" required>
+							<input type="text" class="form-control" id="missing" name="missing" style="text-align: center; display: inline-block;" placeholder="Ex: Mazia, RomainR, Quentin">
 						</div>
 
 						<div class="text-center">
