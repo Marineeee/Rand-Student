@@ -52,7 +52,7 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 						$last_up = login_db();
 						$last_up = $last_up->query('SELECT date FROM rand ORDER BY date DESC');
 						$last_up = $last_up->fetch();
-						echo $last_up['date'];
+						echo htmlspecialchars($last_up['date']);
 						?>
 						</strong>	
 					</li>
@@ -127,13 +127,13 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 												'
 												<tr>
 													<td>
-															' . $students['prenom'] . '
+															' . htmlspecialchars($students['prenom']) . '
 													</td>
 													<td>
-														' . $students['nom'] . '
+														' . htmlspecialchars($students['nom']) . '
 													</td>
 													<td>
-														' . $students['nom_absence'] . '
+														' . htmlspecialchars($students['nom_absence']) . '
 													</td>
 											</tr>
 												';
@@ -144,10 +144,6 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 										</table>
 										</div>
 										<div class="modal-footer">
-											
-												<button type="submit" class="btn btn-primary">
-													Update
-												</button> 
 											
 											<button type="button" class="btn btn-secondary" data-dismiss="modal">
 												Close
@@ -170,13 +166,14 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 							</label>
 							<input type="text" class="form-control" id="rand" name="rand" style="text-align: center; display: inline-block;" required>
 						</div>
+						<!--
 						<div class="form-group">
 							
 							<label for="missing">
 							Élève(s) absent(s)
 							</label>
 							<input type="text" class="form-control" id="missing" name="missing" style="text-align: center; display: inline-block;" placeholder="Ex: Mazia, RomainR, Quentin">
-						</div>
+						</div> -->
 
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">
@@ -229,7 +226,7 @@ if(!empty($db99))
 				echo '
 				<tr>
 					<td>
-							' . $value . '
+							' . htmlspecialchars($value) . '
 					</td>
 				</tr>';
 		}
