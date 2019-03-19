@@ -24,10 +24,6 @@ function choose_student($nbr)
     $db1 = login_db();
     $db1 = $db1->query('SELECT nom_absence FROM students');
 
-    $db2 = login_db();
-    $db2 = $db2->query('SELECT COUNT(nom_absence) as nbr FROM students');
-    $db2 = $db2->fetch();
-
     $i = 0;
 
     while($scrive = $db1->fetch())
@@ -40,14 +36,17 @@ function choose_student($nbr)
 
     for($x = 0; $x < $nbr; $x++)
     {
-        $stud = $students[rand(0, $db2['nbr'])];
+        $stud = $students[rand(0, $i)];
 
         while(in_array($stud, $return))
         {
-            $stud = $students[rand(0, $db2['nbr'])];
+            $stud = $students[rand(0, $i)];
         }
 
+        if(!empty($stud))
         $return[$x] = $stud;
+        else
+        $stud = $students[rand(0, $i)];
     }
 
     return serialize($return);
