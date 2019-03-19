@@ -219,7 +219,7 @@ if(!empty($db99))
 
 if(!empty($db99))
 {
-		$unlucky = unserialize($db99['unlucky_student']);
+		print_r($unlucky = unserialize($db99['unlucky_student']));
 
 		foreach($unlucky as $value)
 		{
