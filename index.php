@@ -200,7 +200,7 @@ if(!empty($db99))
 		<div class="col-md-4"></div>
 		<div class="col-md-4 col-md-offset-2">
 			<h5>
-				Élève(s) tiré(e)(s) au sort.
+				' . count(unserialize($db99['unlucky_student'])) . ' Élève(s) tiré(e)(s) au sort.
 			</h5>
 			<table class="table">
 				<thead>
