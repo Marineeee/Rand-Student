@@ -88,7 +88,10 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 			<div class="row">
 				<div class="col-md-5">
 						<a id="modal-425662" href="#modal-container-425662" role="button" class="btn" data-toggle="modal">Liste des élèves et informations.</a>
-							
+						<a href="?groupe=1" role="button" class="btn">Demi groupe - (1).</a>
+						<a href="?groupe=2" role="button" class="btn">Demi groupe - (2).</a>			
+
+
 							<div class="modal fade" id="modal-container-425662" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
@@ -178,7 +181,16 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 											if(empty($db99) || !isset($db99))
 											{
 													$db2 = login_db();
+
+													if(!isset($_GET['groupe']))
 													$db2 = $db2->query('SELECT * FROM students');
+
+													if(isset($_GET['groupe']) && $_GET['groupe'] == 1)
+													$db2 = $db2->query('SELECT * FROM students WHERE id >= 1 && id < 15');
+													
+													if(isset($_GET['groupe']) && $_GET['groupe'] == 2)
+													$db2 = $db2->query('SELECT * FROM students WHERE id >= 15 && id <= 29');
+
 													$while1 = 0;
 		
 													while($students = $db2->fetch())
