@@ -159,21 +159,56 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 				<div class="col-md-2">
 						
 					<form role="form" method="POST" action="rand.php">
+					
 						<div class="form-group">
-							
-							<label for="rand">
-								Nombre d'élèves à tirer au sort
-							</label>
-							<input type="text" class="form-control" id="rand" name="rand" style="text-align: center; display: inline-block;" required>
+							<table class="table">
+											<thead>
+												<tr>
+													<th>
+														A tirer ?
+													</th>
+													<th>
+														Prénom
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+											<?php
+
+											if(empty($db99) || !isset($db99))
+											{
+													$db2 = login_db();
+													$db2 = $db2->query('SELECT * FROM students');
+													$while1 = 0;
+		
+													while($students = $db2->fetch())
+													{
+														echo 
+														'
+														<tr>
+															<td>
+																<input type="checkbox" class="form-control" id="students" name="' . $while1 . '" value="' . $students['nom_absence'] . '" checked>
+															</td>
+															<td>
+																' . htmlspecialchars($students['nom_absence']) . '
+															</td>
+														</tr>
+														';
+														$while1++;
+													}
+											}
+											
+											?>
+											</tbody>
+									</table>
+							</div>
+						
+							<div class="form-group">
+								<label for="rand">
+										Nombre d'élèves à tirer au sort
+								</label>
+									<input type="text" class="form-control" id="rand" name="rand" style="text-align: center; display: inline-block;" required>
 						</div>
-						<!--
-						<div class="form-group">
-							
-							<label for="missing">
-							Élève(s) absent(s)
-							</label>
-							<input type="text" class="form-control" id="missing" name="missing" style="text-align: center; display: inline-block;" placeholder="Ex: Mazia, RomainR, Quentin">
-						</div> -->
 
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">
@@ -182,7 +217,7 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 						</div>
 
 					</form>
-					
+					<br>
 				</div>
 			</div>
 
