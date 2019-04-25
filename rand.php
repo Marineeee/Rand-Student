@@ -7,46 +7,31 @@ function r_error($message)
     header('Location: index.php?error=' . strip_tags($message));
 }
 
-function tire_supperieur_eleves($rand)
-{
-    $db = login_db();
-    $db = $db->query('SELECT COUNT(prenom) as nbr FROM students');
-    $db = $db->fetch();
-
-    if($rand > $db['nbr'])
-    { return 1; }
-    else
-    { return 0; }
-}
-
 function choose_student($nbr)
 {
-    $db1 = login_db();
-    $db1 = $db1->query('SELECT nom_absence FROM students');
+    $students = array(); // création du tableau qui va contenir tous les prénoms
+    $return = array();
 
-    $i = 0;
-
-    while($scrive = $db1->fetch())
+    for($i = 0; $i < 29; $i++)
     {
-        $students[$i] = $scrive['nom_absence'];
-        $i++;
+        if(isset($_POST[$i]) && !empty($_POST[$i])) // check si le nom est envoyé
+        $students[$i] = $_POST[$i]; // si oui on l'ajoute au tableau
     }
 
-    $return[] = NULL;
+    if($_POST['rand'] > count($students)) // check si le nombre d'eleves à tirer n'est pas supérieur au nombre d'eleves cochés
+    { r_error('Vous ne pouvez pas tirer plus d\'élèves que vous en avez cochés.'); exit(); }
 
-    for($x = 0; $x < $nbr; $x++)
+    $nbr_to_choose = strip_tags($_POST['rand']);
+    $students_size = count($students);
+
+    for($x = 0; $x < $nbr_to_choose; $x++)
     {
-        $stud = $students[rand(0, $i)];
-
-        while(in_array($stud, $return))
+        do
         {
-            $stud = $students[rand(0, $i)];
-        }
+            $stud = $students[rand(0, $students_size)];
+        }while(in_array($stud, $return));
 
-        if(!empty($stud))
         $return[$x] = $stud;
-        else
-        $stud = $students[rand(0, $i)];
     }
 
     return serialize($return);
@@ -57,9 +42,6 @@ if(!isset($_POST['rand']) || empty($_POST['rand']))
 
 if(!is_int(intval($_POST['rand'])))
 { r_error('Le nombre de personnes tirées au sort doit être en nombres. Pas de lettres.'); exit(); }
-
-if(tire_supperieur_eleves($_POST['rand']))
-{ r_error('Vous ne pouvez pas tirer plus d\'élèves que vous en avez.'); exit(); }
 
 $rand = choose_student($_POST['rand']);
 
