@@ -20,7 +20,7 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Choix aléatoir d'un élève - By Marine</title>
+    <title>Choix aléatoire d'un élève - By Marine</title>
 
     <meta name="author" content="https://github.com/marineeee">
 
@@ -35,7 +35,7 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 		<div class="col-md-12">
 			<br>
 			<h3 class="text-info text-center">
-				Choix aléatoir d'un élève.
+				Choix aléatoire d'un élève.
 			</h3>
 			<nav>
 				<ol class="breadcrumb">
