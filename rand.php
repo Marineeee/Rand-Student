@@ -7,10 +7,22 @@ function r_error($message)
     header('Location: index.php?error=' . strip_tags($message));
 }
 
+# Choisi un nombre entre 0 et le nombre d'élèves choisis, sans compter ceux déjà choisis
+function rand_number($min, $max, $already_rand)
+{
+    do
+    {
+        $number = rand($min, $max);
+    } while (in_array($already_rand, $number));
+
+    return $number;
+}
+
 function choose_student($nbr)
 {
     $students = array(); // création du tableau qui va contenir tous les prénoms
     $return = array();
+    $already_rand = array(); // enregistre tous les nombres déjà tirés dans le tableau d'étudiants
 
     for($i = 0; $i < 29; $i++)
     {
@@ -18,20 +30,19 @@ function choose_student($nbr)
         $students[$i] = $_POST[$i]; // si oui on l'ajoute au tableau
     }
 
-    if($_POST['rand'] > count($students)) // check si le nombre d'eleves à tirer n'est pas supérieur au nombre d'eleves cochés
+    # Vérifie si le nombre d'élèves à tirer n'est pas supérieurs de celui d'élèves cochés
+    if($_POST['rand'] > count($students)) 
     { r_error('Vous ne pouvez pas tirer plus d\'élèves que vous en avez cochés.'); exit(); }
 
     $nbr_to_choose = strip_tags($_POST['rand']);
     $students_size = count($students);
 
+    # Fonction qui choisis les étudiants
     for($x = 0; $x < $nbr_to_choose; $x++)
     {
-        do
-        {
-            $stud = $students[rand(0, $students_size)];
-        }while(in_array($stud, $return));
-
-        $return[$x] = $stud;
+        $number = rand_number(0, $students_size - 1, $already_rand); // choissis un nombre aléatoirement parmis ceux disponibles
+        $return[$x] = $students[$number]; // ajout l'étudiant tiré au tableau de ceux tirés
+        $already_rand[$x] = $number; // ajoute le nombre tiré au tableau des déjà tirés
     }
 
     return serialize($return);
