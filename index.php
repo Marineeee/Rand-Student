@@ -114,7 +114,7 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 														Nom
 													</th>
 													<th>
-														Prénom d'absense
+														Prénom d'absence
 													</th>
 												</tr>
 											</thead>
@@ -159,6 +159,12 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 							</div>
 					
 				</div>
+
+				<?php
+				if(empty($db99) || !isset($db99))
+				{
+				?>
+
 				<div class="col-md-2">
 						
 					<form role="form" method="POST" action="rand.php">
@@ -178,8 +184,7 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 											<tbody>
 											<?php
 
-											if(empty($db99) || !isset($db99))
-											{
+											
 													$db2 = login_db();
 
 													if(!isset($_GET['groupe']))
@@ -208,9 +213,8 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 														';
 														$while1++;
 													}
-											}
-											
 											?>
+
 											</tbody>
 									</table>
 							</div>
@@ -232,6 +236,8 @@ if(isset($_GET['randid']) && !empty($_GET['randid']) && is_string($_GET['randid'
 					<br>
 				</div>
 			</div>
+
+			<?php } ?>	
 
 		</div>
 	</div>
@@ -266,7 +272,7 @@ if(!empty($db99))
 
 if(!empty($db99))
 {
-		print_r($unlucky = unserialize($db99['unlucky_student']));
+		$unlucky = unserialize($db99['unlucky_student']);
 
 		foreach($unlucky as $value)
 		{
@@ -289,6 +295,15 @@ if(!empty($db99))
 			</table>
 		</div>
 	</div>
+	
+	<div class="text-center">
+		<form action="index.php" method="get">
+			<button type="submit" class="btn btn-primary">
+					Retirer au sort
+			</button>
+		</form>
+	</div>
+	
 	';
 
 }
