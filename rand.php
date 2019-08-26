@@ -13,7 +13,7 @@ function rand_number($min, $max, $already_rand)
     do
     {
         $number = rand($min, $max);
-    } while (in_array($already_rand, $number));
+    } while (in_array($number, $already_rand));
 
     return $number;
 }
